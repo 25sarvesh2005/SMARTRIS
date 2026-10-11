@@ -700,11 +700,51 @@ export default function App() {
             </button>
           ))}
         </nav>
+        <div className="header-actions">
+          <a
+            href="https://github.com/25sarvesh2005/SMARTRIS/commits/main"
+            target="_blank"
+            rel="noreferrer"
+            className="commit-badge-link"
+            title="View commit history on GitHub"
+          >
+            <span className="commit-dot"></span>
+            Commit: 15a1dd7
+          </a>
+        </div>
       </header>
       {page === "overview" && <Overview openBeam={() => setPage("beam")} />}
       {page === "beam" && <BeamPage />}
       {page === "tradeoff" && <TradeoffPage />}
       {page === "theory" && <TheoryPage />}
+      <footer className="app-footer">
+        <p>SmartRIS • 6G Reconfigurable Intelligent Surface &amp; Beamforming Simulator</p>
+        <div className="footer-links">
+          <a
+            href="https://github.com/25sarvesh2005/SMARTRIS/commit/15a1dd7"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Latest Verified: <code>15a1dd7</code>
+          </a>
+          <span>•</span>
+          <a
+            href="https://github.com/25sarvesh2005/SMARTRIS/commits/main"
+            target="_blank"
+            rel="noreferrer"
+          >
+            All Commits
+          </a>
+          <span>•</span>
+          <a
+            href="https://github.com/25sarvesh2005/SMARTRIS"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub Repo
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

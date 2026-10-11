@@ -24,5 +24,14 @@
 .polar-chart { display: block; width: 100%; max-width: 580px; margin: 12px auto 0; height: auto; }
 @media (max-width: 760px) { .app-header { padding: 0 5vw; align-items: flex-start; flex-direction: column; gap: 0; padding-top: 15px; } nav { width: 100%; overflow-x: auto; } nav button { white-space: nowrap; } .page { padding-top: 38px; } .workspace, .overview-content { grid-template-columns: 1fr; } .controls { position: static; } .chart-heading { align-items: flex-start; flex-direction: column; gap: 8px; } .metrics { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 420px) { .metrics { grid-template-columns: 1fr; } .page { width: min(92vw, 1180px); } }
+.app-footer { border-top: 1px solid #d8dfe1; padding: 28px 5vw; background: #fbfcfc; font-size: 0.85rem; color: #63717b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+.app-footer p { margin: 0; color: #63717b; font-size: 0.85rem; }
+.footer-links { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
+.footer-links a { color: #075c69; text-decoration: none; font-weight: 550; }
+.footer-links a:hover { text-decoration: underline; }
+.footer-links code { font-size: 0.82rem; background: #e8f1f3; padding: 2px 6px; border-radius: 3px; color: #064b58; }
+.commit-badge-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; color: #064b58; background: #e8f3f4; border: 1px solid #c2dcde; padding: 4px 10px; border-radius: 999px; text-decoration: none; transition: background 0.15s ease; }
+.commit-badge-link:hover { background: #d7ebed; text-decoration: none; }
+.commit-dot { width: 7px; height: 7px; background: #00875a; border-radius: 50%; }
 
 

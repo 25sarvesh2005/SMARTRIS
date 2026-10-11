@@ -4,12 +4,13 @@
 > Explore anomalous reflection, phase-gradient beam steering, hardware quantization, and polar radiation patterns with physical electromagnetic rigor.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-smartris.vercel.app-000000?logo=vercel&logoColor=white)](https://smartris.vercel.app)
+[![Latest Commit](https://img.shields.io/github/last-commit/25sarvesh2005/SMARTRIS?logo=git&logoColor=white)](https://github.com/25sarvesh2005/SMARTRIS/commits/main)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tests](https://img.shields.io/badge/Pytest-21%20Passed-brightgreen?logo=pytest&logoColor=white)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/Pytest-33%20Passed-brightgreen?logo=pytest&logoColor=white)](https://pytest.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
