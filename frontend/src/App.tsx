@@ -711,7 +711,7 @@ export default function App() {
             title="View commit history on GitHub"
           >
             <span className="commit-dot"></span>
-            Commit: 15a1dd7
+            Commit: 88ac2fe
           </a>
         </div>
       </header>
@@ -723,11 +723,11 @@ export default function App() {
         <p>SmartRIS • 6G Reconfigurable Intelligent Surface &amp; Beamforming Simulator</p>
         <div className="footer-links">
           <a
-            href="https://github.com/25sarvesh2005/SMARTRIS/commit/15a1dd7"
+            href="https://github.com/25sarvesh2005/SMARTRIS/commit/88ac2fe"
             target="_blank"
             rel="noreferrer"
           >
-            Latest Verified: <code>15a1dd7</code>
+            Latest Verified: <code>88ac2fe</code>
           </a>
           <span>•</span>
           <a
