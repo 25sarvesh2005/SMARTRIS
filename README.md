@@ -199,8 +199,8 @@ SmartRIS is configured for one-click deployment on **Vercel**:
 
 ---
 
-## 📄 License
+## 📄 License & Attribution
 
 Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.
 
-Crafted with ❤️ by **Sarvesh Sharma** for the wireless communications & electromagnetics community.
+Developed and maintained by **Sarvesh Sharma**. Designed for open computational research, academic exploration, and reproducible wireless communications analysis.
