@@ -209,14 +209,20 @@ def improvement_db(controlled_power: float, baseline_power: float) -> float | No
 
 
 def calculate_hpbw_deg(angles_deg: np.ndarray, power: np.ndarray) -> float | None:
-    """Calculate Half-Power Beamwidth (-3 dB width) of the main lobe in degrees."""
+    """Calculate Half-Power Beamwidth (-3 dB width) of the main lobe in degrees.
+    
+    Identifies the principal steered main lobe, finds the left and right -3.0103 dB
+    (half-power, P_peak / 2) crossings with linear interpolation, and computes
+    HPBW = theta_right - theta_left. Returns None if either crossing is outside
+    the visible grid (boundary clipped) or if power is near zero.
+    """
     if power.size < 3 or float(np.max(power)) <= IMPROVEMENT_BASELINE_FLOOR:
         return None
     peak_idx = int(np.argmax(power))
     peak_power = float(power[peak_idx])
     half_power = peak_power * 0.5
 
-    left_angle = float(angles_deg[0])
+    left_angle: float | None = None
     for i in range(peak_idx, 0, -1):
         if power[i - 1] <= half_power:
             p1, p2 = float(power[i - 1]), float(power[i])
@@ -227,7 +233,7 @@ def calculate_hpbw_deg(angles_deg: np.ndarray, power: np.ndarray) -> float | Non
                 left_angle = a1
             break
 
-    right_angle = float(angles_deg[-1])
+    right_angle: float | None = None
     for i in range(peak_idx, power.size - 1):
         if power[i + 1] <= half_power:
             p1, p2 = float(power[i]), float(power[i + 1])
@@ -238,12 +244,22 @@ def calculate_hpbw_deg(angles_deg: np.ndarray, power: np.ndarray) -> float | Non
                 right_angle = a1
             break
 
+    if left_angle is None or right_angle is None:
+        return None
+
     hpbw = float(right_angle - left_angle)
     return round(hpbw, 2) if hpbw > 0 else None
 
 
 def calculate_psll_db(angles_deg: np.ndarray, power: np.ndarray) -> float | None:
-    """Calculate Peak Sidelobe Level (PSLL) in dB relative to the main lobe."""
+    """Calculate Peak Sidelobe Level (PSLL) in dB relative to the main lobe.
+    
+    Excludes the principal main lobe by locating the first pattern nulls on the
+    left and right of the main beam maximum. The peak sidelobe power is identified
+    strictly outside these null boundaries, and PSLL is evaluated as:
+        PSLL = 10 * log10(max(P_sidelobe) / P_main_peak)
+    Returns None if no sidelobes are present outside the nulls or if power is near zero.
+    """
     if power.size < 5 or float(np.max(power)) <= IMPROVEMENT_BASELINE_FLOOR:
         return None
     peak_idx = int(np.argmax(power))
@@ -279,7 +295,18 @@ def calculate_psll_db(angles_deg: np.ndarray, power: np.ndarray) -> float | None
 
 
 def calculate_directivity_dbi(angles_rad: np.ndarray, power: np.ndarray) -> float | None:
-    """Estimate 1D array directivity in dBi via trapezoidal integration over visible angles."""
+    """Estimate 1D array-factor directivity in dBi via visible-space pattern integration.
+    
+    Assumes an idealized linear array of isotropic elements with axial symmetry
+    around the array axis, where the 3D solid-angle radiation integral simplifies to:
+        D = 4*pi*U_max / integral(4*pi, U(theta, phi) dOmega)
+          = 2 * P_max / integral_{-pi/2}^{+pi/2} P(theta) * cos(theta) dtheta
+    
+    Note: For an 8-element uniform linear array with half-wavelength spacing (d = lambda/2),
+    spatial harmonic orthogonality over visible u in [-1, 1] yields D = N = 8, or ~9.03 dBi.
+    This is an idealized 1D array-factor directivity cut; it does not account for a 2D planar
+    aperture, true 3D solid angle integration, or antenna efficiency losses.
+    """
     if power.size < 5 or float(np.max(power)) <= IMPROVEMENT_BASELINE_FLOOR:
         return None
     integrand = power * np.cos(angles_rad)

@@ -38,6 +38,8 @@ frontend/node_modules/
 dist/
 .vite/
 *.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
 
 # Vercel
 .vercel/

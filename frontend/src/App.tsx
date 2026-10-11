@@ -181,13 +181,14 @@ function BeamPage() {
             onChange={(value) => update("target_angle_deg", value)}
           />
           <NumericField
-            label="Reflection magnitude"
+            label="Reflection magnitude (|Γ|)"
             unit="0–1"
             value={form.reflection_magnitude}
             min={0}
             max={1}
             step="any"
             onChange={(value) => update("reflection_magnitude", value)}
+            note="Field reflection coefficient magnitude |Γ| where Pref/Pinc = |Γ|² (1.0 = total reflection)."
           />
           <NumericField
             label="Angular samples"
@@ -378,11 +379,12 @@ function BeamPage() {
                     detail: "normalized",
                   },
                   {
-                    label: "Gain improvement",
+                    label: "Target power improvement",
                     value:
                       result.target_metrics.improvement_db === null
                         ? "Unavailable"
                         : `${format(result.target_metrics.improvement_db, 2)} dB`,
+                    detail: "vs baseline at target angle",
                   },
                   {
                     label: "Estimated peak",
@@ -421,7 +423,7 @@ function BeamPage() {
                       result.research_metrics?.directivity_dbi !== undefined
                         ? `${result.research_metrics.directivity_dbi} dBi`
                         : "Unavailable",
-                    detail: "array directivity",
+                    detail: "1D array factor cut",
                   },
                   {
                     label: "Wavelength",
