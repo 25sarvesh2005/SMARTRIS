@@ -3,6 +3,7 @@
 > **An interactive, high-fidelity Reconfigurable Intelligent Surface (RIS) & 6G Holographic Beamforming Simulator.**  
 > Explore anomalous reflection, phase-gradient beam steering, hardware quantization, and polar radiation patterns with physical electromagnetic rigor.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-smartris.vercel.app-000000?logo=vercel&logoColor=white)](https://smartris.vercel.app)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
@@ -188,14 +189,13 @@ smartris/
 
 ---
 
-## ☁️ Deployment (Vercel)
+## 🌐 Live Platform
 
-SmartRIS is configured for one-click deployment on **Vercel**:
+SmartRIS is deployed and publicly accessible on Vercel:
 
-1. Push this repository to GitHub.
-2. In the [Vercel Dashboard](https://vercel.com/new), click **Import Project**.
-3. Select your repository.
-4. Vercel automatically detects [`vercel.json`](vercel.json), deploying the React frontend as static assets and the FastAPI core as serverless Python functions under `/api`.
+* **Production Web App:** [https://smartris.vercel.app](https://smartris.vercel.app)
+* **REST API & Swagger Documentation:** [https://smartris.vercel.app/docs](https://smartris.vercel.app/docs)
+* **Serverless Health Endpoint:** [https://smartris.vercel.app/api/health](https://smartris.vercel.app/api/health)
 
 ---
 
