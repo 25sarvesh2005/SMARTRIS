@@ -393,8 +393,10 @@ function BeamPage() {
                         ? "Unavailable"
                         : `${format(result.sampled_main_lobe_angles_deg.controlled, 1)}°`,
                     detail:
-                      result.research_metrics?.pointing_error_deg !== null &&
-                      result.research_metrics?.pointing_error_deg !== undefined
+                      result.research_metrics?.competing_lobe_detected
+                        ? `competing peak (target lobe: ${format(result.research_metrics.target_lobe_angle_deg ?? null, 1)}°)`
+                        : result.research_metrics?.pointing_error_deg !== null &&
+                          result.research_metrics?.pointing_error_deg !== undefined
                         ? `error: ${result.research_metrics.pointing_error_deg}°`
                         : "sampled grid",
                   },
@@ -623,16 +625,16 @@ function TheoryPage() {
       </header>
       <section>
         <h2>Array Factor Formulation</h2>
-        <code>AF(θ) = (1/N) Σ βₙ exp(j [ k xₙ (sin θ − sin θᵢ) + φₙ ])</code>
+        <code>AF(θ) = (1/N) Σ βₙ exp(j [ k xₙ sin θ + k xₙ sin θᵢ + φₙ ])</code>
         <p>
           The simulator calculates complex phasor contributions coherently prior to computing normalized directional power:
-          <code>P(θ) = | EP(θ) · AF(θ) |²</code>
+          <code>P(θ) = | EP(θ) · AF(θ) |²</code>. For an unprogrammed baseline array (<code>φₙ = 0</code>), constructive summation yields specular reflection at <code>θ = −θᵢ</code> (Snell's Law).
         </p>
 
         <h2>Bistatic RIS Steering Condition</h2>
-        <code>φₙ = −k xₙ (sin θtarget − sin θincident)</code>
+        <code>φₙ = −k xₙ (sin θtarget + sin θincident)</code>
         <p>
-          In true Reconfigurable Intelligent Surface (RIS) operation, an incident plane wave arrives from direction <code>θᵢ</code> (from the transmitter) and is steered toward <code>θ_target</code> (receiver). When <code>θᵢ = 0°</code>, this reduces to normal incidence steering.
+          In true Reconfigurable Intelligent Surface (RIS) operation, an incident plane wave arrives from direction <code>θᵢ</code> (from the transmitter) and is steered toward <code>θ_target</code> (receiver) by canceling both the incoming surface phase ramp and the outgoing observation phase.
         </p>
 
         <h2>Embedded Element Radiation Pattern (EP)</h2>

@@ -38,6 +38,9 @@ export type BeamSteeringResult = {
     psll_db: number | null;
     directivity_dbi: number | null;
     pointing_error_deg: number | null;
+    target_lobe_angle_deg?: number | null;
+    target_lobe_pointing_error_deg?: number | null;
+    competing_lobe_detected?: boolean;
   };
   warnings: string[];
   limitations: string[];

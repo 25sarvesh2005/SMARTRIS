@@ -17,6 +17,7 @@ from .simulation import (
     degrees_to_radians,
     directional_power,
     element_positions_m,
+    find_peaks_and_lobes,
     improvement_db,
     normalized_power,
     power_to_db,
@@ -89,13 +90,31 @@ def _base_result(
             coupled_loss_model=request.coupled_loss_model,
         )
     )
-    peak_angle = sampled_main_lobe_angle_deg(angles_deg, pattern)
-    hpbw = calculate_hpbw_deg(angles_deg, pattern)
-    psll = calculate_psll_db(angles_deg, pattern)
+    lobe_info = find_peaks_and_lobes(angles_deg, pattern, steering_target_angle_deg)
+    peak_angle = lobe_info["global_peak_angle"]
+    target_lobe_angle = lobe_info["target_lobe_angle"]
+    target_lobe_idx = lobe_info["target_lobe_idx"]
+    competing_lobe_present = lobe_info["competing_lobe_present"]
+
+    # Calculate metrics around target lobe if target is specified, else around global peak
+    active_idx = target_lobe_idx if target_lobe_idx is not None else lobe_info["global_peak_idx"]
+    hpbw = calculate_hpbw_deg(angles_deg, pattern, active_idx)
+    psll = calculate_psll_db(angles_deg, pattern, active_idx)
     directivity = calculate_directivity_dbi(angles_rad, pattern)
+
     pointing_error = None
     if steering_target_angle_deg is not None and peak_angle is not None:
         pointing_error = round(abs(peak_angle - steering_target_angle_deg), 2)
+
+    target_pointing_error = None
+    if steering_target_angle_deg is not None and target_lobe_angle is not None:
+        target_pointing_error = round(abs(target_lobe_angle - steering_target_angle_deg), 2)
+
+    warnings = _warnings(request, wavelength, steering_target_angle_deg)
+    if competing_lobe_present and peak_angle is not None and target_lobe_angle is not None:
+        warnings.append(
+            f"Competing lobe detected at {peak_angle:.1f}° ({lobe_info['global_peak_power']:.2f}) rivaling the target-directed beam at {target_lobe_angle:.1f}°."
+        )
 
     return {
         "model_id": config.MODEL_ID,
@@ -113,7 +132,10 @@ def _base_result(
         "psll_db": psll,
         "directivity_dbi": directivity,
         "pointing_error_deg": pointing_error,
-        "warnings": _warnings(request, wavelength, steering_target_angle_deg),
+        "target_lobe_angle_deg": target_lobe_angle,
+        "target_lobe_pointing_error_deg": target_pointing_error,
+        "competing_lobe_detected": competing_lobe_present,
+        "warnings": warnings,
         "limitations": [
             "Idealized linear array-factor model; this is not a full-wave electromagnetic simulation.",
             "Normalized directional power is not absolute received power, gain, scattering, or RCS.",
@@ -211,6 +233,9 @@ def beam_steering(request: BeamSteeringRequest) -> dict:
             "psll_db": controlled["psll_db"],
             "directivity_dbi": controlled["directivity_dbi"],
             "pointing_error_deg": controlled["pointing_error_deg"],
+            "target_lobe_angle_deg": controlled["target_lobe_angle_deg"],
+            "target_lobe_pointing_error_deg": controlled["target_lobe_pointing_error_deg"],
+            "competing_lobe_detected": controlled["competing_lobe_detected"],
         },
         "warnings": controlled["warnings"],
         "limitations": controlled["limitations"],
